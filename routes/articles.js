@@ -1,22 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const getNewDescription = require('../functions/getNewDescription');
-const Summary = require('../models/summary');
+const Article = require('../models/articles');
 
 router.post('/:id', async (req, res) => {
     const { id } = req.params;
     console.log(id);
     const { name, email, comment } = req.body;
-    const data = await Summary.findByIdAndUpdate(id, {
+    const data = await Article.findByIdAndUpdate(id, {
         $push: { comments: [{name, email, comment }]}
       }, { new: true, upsert: true}); 
-    res.redirect(`/summary/${id}`);  
+    res.redirect(`/articles/${id}`);  
 });
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    const data = await Summary.findById(id);
-    res.render('summary/show', { data });
+    const data = await Article.findById(id);
+    res.render('articles/show', { data });
 });
 
 router.get('/tags/:tag', async (req, res) => {
@@ -39,18 +39,18 @@ router.get('/tags/:tag', async (req, res) => {
     if(temp != 1){
         temp--;
     }
-    const count = await Summary.find({ tags: tag}).countDocuments();
+    const count = await Article.find({ tags: tag}).countDocuments();
     const totalPages = Math.ceil(count/limit);
     if(page > totalPages){
         temp = totalPages - 1;
         page = totalPages;
     }
-    const data = await Summary.find({ tags: tag }).skip((page - 1) * skip).limit(limit).sort({"createdAt": -1});;
+    const data = await Article.find({ tags: tag }).skip((page - 1) * skip).limit(limit).sort({"createdAt": -1});;
     for(let i = 0; i < data.length; i++){
         let newStr = getNewDescription(data[i].description);
         data[i].description = newStr;
     }
-    res.render('summary/tag', { data , tag, currentPage, totalPages, temp });
+    res.render('articles/tag', { data , tag, currentPage, totalPages, temp });
 });
 
 router.get('/', async (req, res) => {
@@ -72,18 +72,18 @@ router.get('/', async (req, res) => {
     if(temp != 1){
         temp--;
     }
-    const count = await Summary.countDocuments();
+    const count = await Article.countDocuments();
     const totalPages = Math.ceil(count/limit);
     if(page > totalPages){
         temp = totalPages - 1;
         page = totalPages;
     }
-    const data = await Summary.find({}).skip((page - 1) * skip).limit(limit).sort({"createdAt": -1});
+    const data = await Article.find({}).skip((page - 1) * skip).limit(limit).sort({"createdAt": -1});
     for(let i = 0; i < data.length; i++){
         let newStr = getNewDescription(data[i].description);
         data[i].description = newStr;
     }
-    res.render('summary/index', { data , totalPages, currentPage, temp });
+    res.render('articles/index', { data , totalPages, currentPage, temp });
 });
 
 module.exports = router;

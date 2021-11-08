@@ -14,8 +14,8 @@ app.use(methodOverride('_method'));
 app.use(morgan('dev'));
 
 //requiring files
-const summaryRoutes = require('./routes/summary');
-app.use('/summary', summaryRoutes);
+const articlesRoutes = require('./routes/articles');
+app.use('/articles', articlesRoutes);
 const adminRoutes = require('./routes/admin');
 app.use('/admin', adminRoutes);
 
