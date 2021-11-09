@@ -5,15 +5,19 @@ const router = express.Router();
 
 router.post('/signup', async (req, res) => {
     const { username, password, email, img, bio } = req.body;
-    const data = await User.create({ 
-        username : username, 
-        password : password,
-        email: email,
-        img: img,
-        bio: bio
-    });
-    console.log(data);
-    res.json("Hey! It Worked!");
+    try {
+        const data = await User.create({
+            username: username,
+            password: password,
+            email: email,
+            img: img,
+            bio: bio
+        });
+        console.log(data);
+        res.json("Hey! It Worked!");
+    } catch (err) {
+        res.status(404).render('error');
+    }
 });
 
 router.get('/signup', (req, res) => {
@@ -22,9 +26,13 @@ router.get('/signup', (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    const data = await User.findOne({ username : username, password : password});
-    console.log(data);
-    res.json(data);
+    try {
+        const data = await User.findOne({ username: username, password: password });
+        console.log(data);
+        res.json(data);
+    } catch (error) {
+        res.status(404).render('error');
+    }
 });
 
 router.get('/login', (req, res) => {
