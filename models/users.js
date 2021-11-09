@@ -19,8 +19,10 @@ const userSchema = mongoose.Schema({
         type: String,
         default: ""
     },
-    hash: String,
-    salt: String
+    password: {
+        type: String,
+        required: true
+    }
 }, {timestamps: true});
 
 const User = new mongoose.model('User', userSchema);

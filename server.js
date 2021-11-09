@@ -18,6 +18,8 @@ const articlesRoutes = require('./routes/articles');
 app.use('/articles', articlesRoutes);
 const adminRoutes = require('./routes/admin');
 app.use('/admin', adminRoutes);
+const authRoutes = require('./routes/auth');
+app.use('/auth', authRoutes); 
 
 //setting up mongodb
 mongoose.connect(process.env.MONGO_URI, {
@@ -46,7 +48,7 @@ app.get('/', (req, res) => {
 });
 
 app.use((req, res) => {
-    res.send('Not Found!');
+    res.render('error');
 });
 
 app.listen(port, () => {
