@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const signupErrorHandler = require('../functions/signupErrorHandler');
+const loginErrorHandler = require('../functions/loginErrorHandler');
 const User = require('../models/users');
 const router = express.Router();
 
@@ -16,7 +18,8 @@ router.post('/signup', async (req, res) => {
         console.log(data);
         res.json("Hey! It Worked!");
     } catch (err) {
-        res.status(404).render('error');
+        const signupError = signupErrorHandler(err);
+        res.status(404).render('error', { signupError });
     }
 });
 
@@ -27,11 +30,12 @@ router.get('/signup', (req, res) => {
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
-        const data = await User.findOne({ username: username, password: password });
+        const data = await User.find({ username: username, password: password });
         console.log(data);
-        res.json(data);
-    } catch (error) {
-        res.status(404).render('error');
+        res.send(data);
+    } catch (err) {
+        const loginError = loginErrorHandler(err);
+        res.status(404).render('error', { loginError });
     }
 });
 
@@ -40,7 +44,9 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    res.render('auth/index');
+    res.redirect('/auth/login');
 });
 
 module.exports = router;
+
+

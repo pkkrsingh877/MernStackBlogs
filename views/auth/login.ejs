@@ -1,18 +1,23 @@
 <% layout('/layouts/boilerplate') %>
 
 <h2>Login</h2>
-    <form action="/auth/login" method="post">
+    <form action="/auth/login" method="post" class="">
         <div class="mb-3">
             <label for="username" class="form-label">
             Enter Username:
             </label> <br> 
             <input type="text" name="username"
-            id="username" placeholder="username" class="form-control" required>
+            id="username" placeholder="username" class="form-control">
         </div>    
         <div class="mb-3">
             <label for="password" class="form-label">Enter Password: </label> <br> 
             <input type="password" name="password"
-            id="password" placeholder="password" class="form-control" required>
+            id="password" placeholder="password" class="form-control">
         </div>
         <button class="btn btn-success">Login</button>
     </form>
+    <section class="description mt-3">
+        Don't have an account?<br>
+    <a href="/auth/signup" class="btn btn-secondary mt-1" style="color: white!important;">Signup</a>    
+    </section>
+    

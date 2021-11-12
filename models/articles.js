@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const articleSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: [true, "Please, Enter the title"]
     },
     description: {
         type: String,
-        required: true
+        required: [true, "Please, Enter the description"]
     },
     // category: {
     //     type: String
@@ -21,9 +21,9 @@ const articleSchema = new mongoose.Schema({
         type: Date
     },
     comments: [{
-        name: { type: String, default: "anonymous" },
+        name: { type: String, required: [true, "Please, Enter your name"] },
         email: { type: String, default: "" },
-        comment: { type: String, default: ":)" },
+        comment: { type: String, required: [true, "Please, Enter the comment"] },
         createdAt: { type: Date, default: Date.now }
       }]
 });
