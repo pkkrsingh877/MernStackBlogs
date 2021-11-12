@@ -4,6 +4,7 @@ const signupErrorHandler = (err) => {
         password: '',
         email: ''
     }
+    
     if(err.code === 11000){
         error.email = "This email is already registered!"
         console.log(error);
