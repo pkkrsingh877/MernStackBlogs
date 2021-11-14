@@ -4,22 +4,27 @@ const signupErrorHandler = require('../functions/signupErrorHandler');
 const loginErrorHandler = require('../functions/loginErrorHandler');
 const User = require('../models/users');
 const router = express.Router();
+const createToken = require('../functions/createToken');
+const maxAge = 24 * 60 * 60;
 
 router.post('/signup', async (req, res) => {
-    const { username, password, email, img, bio } = req.body;
+    const { name, username, password, email, img, bio } = req.body;
+    console.log(req.body);
     try {
         const data = await User.create({
+            name: name,
             username: username,
             password: password,
             email: email,
             img: img,
             bio: bio
         });
-        console.log(data);
-        res.json("Hey! It Worked!");
+        const token = createToken(data._id, maxAge);
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+        res.status(201).send("User created!");
     } catch (err) {
         const signupError = signupErrorHandler(err);
-        res.status(404).render('error', { signupError });
+        res.status(404).json({ signupError });
     }
 });
 

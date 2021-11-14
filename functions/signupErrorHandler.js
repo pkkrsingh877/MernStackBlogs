@@ -2,7 +2,8 @@ const signupErrorHandler = (err) => {
     const error = {
         username: '',
         password: '',
-        email: ''
+        email: '',
+        name: ''
     }    
     if(err.code === 11000){
         if(err.keyValue.username){

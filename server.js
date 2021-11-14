@@ -9,7 +9,8 @@ const ejsMate = require('ejs-mate');
 require('dotenv').config();
 
 //middleware (order matters )
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(morgan('dev'));
 
