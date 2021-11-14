@@ -21,6 +21,8 @@ const adminRoutes = require('./routes/admin');
 app.use('/admin', adminRoutes);
 const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes); 
+const userRoutes = require('./routes/user');
+app.use('/user', userRoutes); 
 
 //setting up mongodb
 mongoose.connect(process.env.MONGO_URI, {

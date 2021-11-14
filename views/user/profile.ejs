@@ -1,0 +1,9 @@
+<% layout('/layouts/boilerplate') %>
+
+<section class="d-flex flex-column justify-content-center align-items-center card shadow p-3 mb-3 bg-body rounded">
+    <img src="<%= data.img %>" alt="Picture of <%= data.name %>" class="profileImage mb-3">
+    <p class="h5">@<%= data.username %></p>
+    <p class="mb-1 nParagraph "><%= data.name %></p>
+    <p class="mb-1 nParagraph "><%= data.email %></p>
+    <p class="text-muted nParagraph "><%= data.bio %></p>
+</section>

@@ -8,7 +8,7 @@
             </label> <br> 
             <input type="text" name="name"
             id="name" placeholder="name" class="form-control">
-            <div class="name error"></div>
+            <div class="name error small red"></div>
         </div> 
         <div class="mb-3">
             <label for="username" class="form-label">
@@ -16,7 +16,7 @@
             </label> <br> 
             <input type="text" name="username"
             id="username" placeholder="username" class="form-control">
-            <div class="username error"></div>
+            <div class="username error small red"></div>
         </div>   
         <div class="mb-3">
             <label for="email" class="form-label">
@@ -24,7 +24,7 @@
             </label> <br> 
             <input type="email" name="email"
             id="email" placeholder="email" class="form-control">
-            <div class="email error"></div>
+            <div class="email error small red"></div>
         </div>
         <div class="mb-3">
             <label for="img" class="form-label">
@@ -44,7 +44,7 @@
             <label for="password" class="form-label">Enter Password: </label> <br> 
             <input type="password" name="password"
             id="password" placeholder="password" class="form-control">
-            <div class="password error"></div>
+            <div class="password error small red"></div>
         </div>
         <button class="btn btn-success">Sign Up</button>
     </form>
@@ -55,8 +55,17 @@
 
     <script>
         const form = document.querySelector('form');
+        const name = document.querySelector('.name.error');
+        const username = document.querySelector('.username.error');
+        const email = document.querySelector('.email.error');
+        const password = document.querySelector('.password.error');
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault(); 
+            name.textContent = '';
+            username.textContent = '';
+            email.textContent = '';
+            password.textContent = '';
             try {
                 const res = await fetch('/auth/signup', {
                     method: 'POST',
@@ -72,6 +81,23 @@
                 });
                 const data = await res.json();
                 console.log(data);
+                if(data.signupError){                  
+                    if(data.signupError.name){
+                        name.textContent = data.signupError.name
+                    }
+                    if(data.signupError.username){
+                        username.textContent = data.signupError.username
+                    }
+                    if(data.signupError.email){
+                        email.textContent = data.signupError.email
+                    }
+                    if(data.signupError.password){
+                        password.textContent = data.signupError.password
+                    }
+                }
+                if(data.data){
+                    location.assign(`/user/${data.data._id}`);
+                }
             } catch (err) {
                 console.log(err);
             }
