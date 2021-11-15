@@ -4,8 +4,6 @@
 
 1. The Category feature, unique categories
 2. View Count for all blogs
-3. Pagination
-4. Error Handling
 
 ## Features That Have Been Added
 
@@ -24,3 +22,5 @@
 9. The Tag feature, many tags
 10. Now, password is needed to make some sort of post or patch request
 11. Now, Visitors can comment on the each summary 
+12. Pagination
+13. Can handle some Errors
