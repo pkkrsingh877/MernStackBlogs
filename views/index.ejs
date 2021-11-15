@@ -1,6 +1,11 @@
 <% layout('/layouts/boilerplate') %>
 
 <section class="d-flex justify-content-center align-items-center flex-column">
-    <a href="/auth/login" class="m-3">Login</a>
-    <a href="/auth/signup" class="m-3">Signup</a>
+    <% if(user){ %>
+        <span class="main-title">Welcome, <%= user.name %></span> 
+        <a href="/auth/logout" class="m-3">Logout</a>
+    <% }else{ %>
+        <a href="/auth/login" class="m-3">Login</a>
+        <a href="/auth/signup" class="m-3">Signup</a>
+    <% } %>
 </section>

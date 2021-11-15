@@ -7,6 +7,11 @@ const router = express.Router();
 const createToken = require('../functions/createToken');
 const maxAge = 24 * 60 * 60;
 
+router.get('/logout', (req, res) => {
+    res.cookie('jwt', '', { maxAge: 1});
+    res.redirect('/');
+});
+
 router.post('/signup', async (req, res) => {
     const { name, username, password, email, img, bio } = req.body;
     console.log(req.body);

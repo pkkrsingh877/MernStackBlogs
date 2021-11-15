@@ -86,7 +86,7 @@ router.get("/new", (req, res) => {
     res.render("admin/new");
 });
 
-router.get("", (req, res) => {
+router.get("/", (req, res) => {
     res.render("admin/index");
 });
 
