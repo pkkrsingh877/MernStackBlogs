@@ -80,7 +80,6 @@
                     headers: { 'Content-Type': 'application/json' }
                 });
                 const data = await res.json();
-                console.log(data);
                 if(data.signupError){                  
                     if(data.signupError.name){
                         name.textContent = data.signupError.name

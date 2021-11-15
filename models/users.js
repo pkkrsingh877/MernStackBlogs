@@ -22,10 +22,11 @@ const userSchema = mongoose.Schema({
     },
     img: {
         type: String,
-        default: ""
+        default: "https://letmestudyhere.files.wordpress.com/2021/11/dodger-blue_035032206.jpg"
     },
     password: {
         type: String,
+        minlength: [8, 'Password length needs to be at least 8!'],
         required: [true, "Password is required!"]
     }
 }, {timestamps: true});
