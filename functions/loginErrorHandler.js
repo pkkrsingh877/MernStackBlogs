@@ -3,10 +3,12 @@ const loginErrorHandler = (err) => {
         username: '',
         password: ''
     }
-    Object.values(err.errors).forEach(({properties}) => {
-        error[properties.path] = properties.message;
-    });
-    console.log(error.username, error.password);
+    if(err.message === 'Password is incorrect!'){
+        error.password = 'Password is incorrect!'; 
+    }
+    if(err.message === 'Username is incorrect!'){
+        error.username = 'Username is incorrect!';
+    }
     return error;
 }
 

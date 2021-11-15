@@ -35,12 +35,11 @@ router.get('/signup', (req, res) => {
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
-        const data = await User.find({ username: username, password: password });
-        console.log(data);
-        res.send(data);
+        const user = await User.login(username, password);
+        res.status(200).json({ user: user._id });
     } catch (err) {
         const loginError = loginErrorHandler(err);
-        res.status(404).render('error', { loginError });
+        res.status(400).json({ loginError });
     }
 });
 
