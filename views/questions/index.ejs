@@ -1,3 +1,25 @@
 <% layout('/layouts/boilerplate') %>
     <h1>Questions</h1>  
     <a href="/questions/new">Ask a Question</a>
+    <hr>
+    <% for( let index = 0; index < questions.length; index++ ) { %>
+        <section class="card shadow p-3 mb-3 bg-body rounded">
+            <h2>
+                <a href="/questions/<%= questions[index]._id %>" class="title">
+                    <%= questions[index].title %>
+                </a>
+            </h2>
+            <hr>
+            <article class="description m-3">
+                <%- questions[index].description %>
+                 <a href="/questions/<%= questions[index]._id %>">[Read More...]</a>
+            </article>
+            <hr>
+            <div class="description text-muted container cardFooter">
+                <div class="row">
+                    <div class="col-sm">Modified at <%= questions[index].updatedAt %></div>
+                    <div class="col-sm">Created at <%= questions[index].createdAt %></div>
+                </div>
+            </div>
+        </section>
+    <% } %>

@@ -1,0 +1,25 @@
+<% layout('/layouts/boilerplate') %>
+    <section class="card shadow p-3 mb-3 mt-3 bg-body rounded">
+        <h2 class="title">
+            <%= question.title %>
+        </h2>
+        <hr>
+        <article class="description m-3">
+            <%- question.description %>
+        </article>
+        <article class="tags m-1 d-flex flex-row flex-wrap">
+            <% for(let i = 0; i < question.tags.length; i++){ %>
+            <div class="tag-card">
+                <a href="/questions/tags/<%= question.tags[i] %>"> <%= question.tags[i] %> </a>
+            </div>
+            <% } %>
+        </article>
+        <hr>
+            <div class="description text-muted container cardFooter">
+                <div class="row">
+                    <div class="col-sm">Modified at <%= question.updatedAt %></div>
+                    <div class="col-sm">Created at <%= question.createdAt %></div>
+                </div>
+            </div>
+    </section>
+    
