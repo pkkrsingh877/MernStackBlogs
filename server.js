@@ -27,6 +27,8 @@ const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes); 
 const userRoutes = require('./routes/user');
 app.use('/user', userRoutes);
+const questionRoutes = require('./routes/questions');
+app.use('/questions', questionRoutes);
 
 //setting up mongodb
 mongoose.connect(process.env.MONGO_URI, {

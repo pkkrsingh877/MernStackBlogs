@@ -1,0 +1,27 @@
+<% layout('/layouts/boilerplate') %>
+    <h2>Ask new question</h2>
+    <form action="/questions" method="post">
+        <div class="mb-3">
+            <label for="title" class="form-label">
+            Title:
+            </label> <br> 
+            <input type="text" name="title"
+            id="title" placeholder="title" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description: </label><br>
+            <textarea id ="description" placeholder="description"
+            name="description" cols="30" rows="6" class="form-control"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="tags" class="form-label">Tags: </label><br>
+            <textarea id ="tags" placeholder="tags"
+            name="tags" cols="30" rows="3" class="form-control"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password: </label> <br> 
+            <input type="password" name="password"
+            id="title" placeholder="password" class="form-control">
+        </div>
+        <button class="btn btn-success">ASK</button>
+    </form>
