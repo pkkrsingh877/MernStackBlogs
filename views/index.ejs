@@ -1,11 +1,23 @@
 <% layout('/layouts/boilerplate') %>
 
-<section class="d-flex justify-content-center align-items-center flex-column">
     <% if(user){ %>
-        <span class="main-title">Welcome, <%= user.name %></span> 
-        <a href="/auth/logout" class="m-3">Logout</a>
-    <% }else{ %>
-        <a href="/auth/login" class="m-3">Login</a>
-        <a href="/auth/signup" class="m-3">Signup</a>
-    <% } %>
-</section>
+        <div class="jumbotron d-flex flex-column justify-content-center align-items-center">
+            <h1 class="display-4 text-center">Welcome,  <%= user.name %></h1>
+            <hr class="my-3">
+            <span class="lead display-6">Have some questions?</span>
+            <a href="/questions/new" class="lead">Ask</a>
+            <br>
+            <span class="lead display-6">Want to logout?</span>
+            <a href="/auth/logout" class="lead">Logout</a>
+        </div>
+        <% }else{ %>
+            <div class="jumbotron d-flex flex-column justify-content-center align-items-center">
+                <h1 class="display-4 text-center">Welcome to MernStackBlogs</h1>
+                <hr class="my-3">
+                <span class="lead display-6">Have an account?</span>
+                <a href="/auth/login" class="lead">Login</a>
+                <br>
+                <span class="lead display-6">Don't have an account?</span>
+                <a href="/auth/signup" class="lead">Signup</a>
+            </div>
+        <% } %>
