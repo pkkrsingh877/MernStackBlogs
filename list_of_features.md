@@ -3,7 +3,6 @@
 ## Features To Be Added
 
 1. The Category feature, unique categories
-2. View Count for all blogs
 
 ## Features That Have Been Added
 
@@ -24,3 +23,4 @@
 11. Now, Visitors can comment on the each summary 
 12. Pagination
 13. Can handle some Errors
+14. View Count for all blogs and questions
