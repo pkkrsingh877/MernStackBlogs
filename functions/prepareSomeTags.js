@@ -1,5 +1,4 @@
 const prepareSomeTags = (str) => {
-    console.log(str);
     let arr = [];
     for(let i = 0; i < str.length; i++){
         let j = i;

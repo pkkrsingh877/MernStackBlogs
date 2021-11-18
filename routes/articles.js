@@ -1,7 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const getNewDescription = require("../functions/getNewDescription");
+const getIdFromURL = require('../functions/getIdFromURL');
 const Article = require("../models/articles");
+
+router.post('/viewcount', async (req, res) => {
+    const { url } = req.body;
+    const id = getIdFromURL(url);
+    const article = await Article.findByIdAndUpdate(id, {$inc : {'views' : 1}}, { new: true, upsert: true});
+    res.status(200).end();
+});
 
 router.post("/:id", async (req, res) => {
     const { id } = req.params;

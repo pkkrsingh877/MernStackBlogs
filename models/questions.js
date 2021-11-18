@@ -14,7 +14,8 @@ const questionSchema = new mongoose.Schema({
         name: { type: String, required: [true, "Please, Enter your name"] },
         email: { type: String, default: "" },
         comment: { type: String, required: [true, "Please, Enter the comment"] },
-      }, {timestamps: true}]
+      }, {timestamps: true}],
+    views: Number  
 }, {timestamps: true});
 //create model
 const Question = new mongoose.model('Question', questionSchema);

@@ -9,6 +9,9 @@ const ejsMate = require('ejs-mate');
 const cookieParser = require('cookie-parser');
 const authMiddleware = require('./middlewares/authMiddleware');
 const checkUserMiddleware = require('./middlewares/checkUserMiddleware');
+const Question = require('./models/questions');
+const Article = require('./models/articles');
+const getNewDescription = require('./functions/getNewDescription');
 require('dotenv').config();
 
 //middleware (order matters )
@@ -52,8 +55,20 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
-app.get('/', checkUserMiddleware, (req, res) => {
-    res.render('index');
+app.get('/', checkUserMiddleware, async (req, res) => {
+    const questions = await Question.find({}).limit(4).sort({ views: -1 });
+    for (let i = 0; i < questions.length; i++) {
+        let newStr = getNewDescription(questions[i].description);
+        questions[i].description = newStr;
+    }
+
+    const articles = await Article.find({}).limit(4).sort({ views: -1 });
+    for (let i = 0; i < articles.length; i++) {
+        let newStr = getNewDescription(articles[i].description);
+        articles[i].description = newStr;
+    }
+
+    res.render('index', { questions, articles });
 });
 
 app.use((req, res) => {

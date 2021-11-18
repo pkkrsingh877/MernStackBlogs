@@ -21,3 +21,60 @@
             <a href="/auth/signup" class="lead">Signup</a>
         </div>
     <% } %>
+
+    <hr>
+    <h1>Most Popular Articles</h1>
+    <hr>
+
+    <% for(let i = 0; i < articles.length; i++){ %>
+        <section class="card shadow p-3 mb-3 bg-body rounded">
+            <h2>
+                <a href="/articles/<%= articles[i]._id %>" class="title">
+                    <%= articles[i].title %>
+                </a>
+            </h2>
+            <hr>
+            <article class="description m-3">
+                <%- articles[i].description %>
+                 <a href="/articles/<%= articles[i]._id %>">[Read More...]</a>
+            </article>
+            <hr>
+            <div class="description text-muted container cardFooter">
+                <div class="row">
+                    <div class="col-sm">Modified at <%= articles[i].modifiedAt.toDateString() %></div>
+                    <div class="col-sm">Created at <%= articles[i].createdAt.toDateString() %></div>
+                    <% if (articles[i].readMinutes > 1) { %>
+                        <div class="col-sm"> <%= articles[i].readMinutes %> minutes read</div>
+                    <% } else { %>
+                        <div class="col-sm"> <%= articles[i].readMinutes %> minute read</div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+    <% } %>
+
+    <hr>
+    <h1>Most Popular Questions</h1>
+    <hr>
+
+    <% for( let index = 0; index < questions.length; index++ ) { %>
+        <section class="card shadow p-3 mb-3 bg-body rounded">
+            <h2>
+                <a href="/questions/<%= questions[index]._id %>" class="title">
+                    <%= questions[index].title %>
+                </a>
+            </h2>
+            <hr>
+            <article class="description m-3">
+                <%- questions[index].description %>
+                 <a href="/questions/<%= questions[index]._id %>">[Read More...]</a>
+            </article>
+            <hr>
+            <div class="description text-muted container cardFooter">
+                <div class="row">
+                    <div class="col-sm">Modified at <%= questions[index].updatedAt %></div>
+                    <div class="col-sm">Created at <%= questions[index].createdAt %></div>
+                </div>
+            </div>
+        </section>
+    <% } %>

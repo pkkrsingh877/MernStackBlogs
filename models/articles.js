@@ -25,7 +25,8 @@ const articleSchema = new mongoose.Schema({
         email: { type: String, default: "" },
         comment: { type: String, required: [true, "Please, Enter the comment"] },
         createdAt: { type: Date, default: Date.now }
-      }]
+      }],
+    views: Number  
 });
 //create model
 const Article = new mongoose.model('Article', articleSchema);

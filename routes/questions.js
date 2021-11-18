@@ -1,7 +1,15 @@
 const express = require('express');
 const Question = require('../models/questions');
-const prepareSomeTags = require('../functions/prepareSomeTags')
+const prepareSomeTags = require('../functions/prepareSomeTags');
+const getIdFromURL = require('../functions/getIdFromURL');
 const router = express.Router();
+
+router.post('/viewcount', async (req, res) => {
+    const { url } = req.body;
+    const id = getIdFromURL(url);
+    const question = await Question.findByIdAndUpdate(id, {$inc : {'views' : 1}}, { new: true, upsert: true});
+    res.status(200).end();
+});
 
 router.get('/new', async (req, res) => {
     res.render('questions/new');
