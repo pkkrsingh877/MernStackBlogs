@@ -1,25 +1,22 @@
 <% layout('/layouts/boilerplate') %>
 
     <% if(user){ %>
-        <div class="jumbotron d-flex flex-column justify-content-center align-items-center">
-            <h1 class="display-4 text-center">Welcome,  <%= user.name %></h1>
-            <hr class="my-3">
-            <span class="lead display-6">Have some questions?</span>
-            <a href="/questions/new" class="lead">Ask</a>
-            <br>
-            <span class="lead display-6">Want to logout?</span>
-            <a href="/auth/logout" class="lead">Logout</a>
-        </div>
+        <section class="d-flex flex-column justify-content-center align-items-center card shadow p-3 mb-3 bg-body rounded">
+            <p class="h1 text-center">Welcome back, <%= user.name %></p>
+            <p class="description text-center text-muted">What would you like to do?</p>
+            <p class="mb-1"><a href="/questions/new" id="simple-link">Ask a question</a></p>
+            <p class="mb-1"><a href="/user/<%= user._id %>" id="simple-link">View your profile</a></p>
+            <p class="mb-1"><a href="#" id="simple-link">Update your profile</a></p>
+            <p class="mb-1"><a href="/auth/logout" id="simple-link">Logout</a></p>
+        </section>
     <% }else{ %>
-        <div class="jumbotron d-flex flex-column justify-content-center align-items-center">
-            <h1 class="display-4 text-center">Welcome to MernStackBlogs</h1>
-            <hr class="my-3">
-            <span class="lead display-6">Have an account?</span>
-            <a href="/auth/login" class="lead">Login</a>
-            <br>
-            <span class="lead display-6">Don't have an account?</span>
-            <a href="/auth/signup" class="lead">Signup</a>
-        </div>
+        <section class="d-flex flex-column justify-content-center align-items-center card shadow p-3 mb-3 bg-body rounded">
+            <p class="h1 text-center">Welcome to MernStackBlogs</p>
+            <p class="description text-center text-muted">What would you like to do?</p>
+            <p class="mb-1"><a href="/questions/new" id="simple-link">Ask a question</a></p>
+            <p class="mb-1"><a href="/auth/login" id="simple-link">Login</a></p>
+            <p class="mb-1"><a href="/auth/signup" id="simple-link">Signup</a></p>
+        </section>
     <% } %>
 
     <hr>
