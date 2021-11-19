@@ -67,7 +67,7 @@ app.get('/', checkUserMiddleware, async (req, res) => {
         let newStr = getNewDescription(articles[i].description);
         articles[i].description = newStr;
     }
-    
+
     res.render('index', { questions, articles });
 });
 
