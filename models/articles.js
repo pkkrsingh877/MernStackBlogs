@@ -28,6 +28,7 @@ const articleSchema = new mongoose.Schema({
       }],
     views: Number  
 });
+articleSchema.index({title: 'text', description: 'text'});
 //create model
 const Article = new mongoose.model('Article', articleSchema);
 module.exports = Article;
