@@ -18,5 +18,6 @@ const questionSchema = new mongoose.Schema({
     views: Number  
 }, {timestamps: true});
 //create model
+questionSchema.index({title: 'text', description: 'text'});
 const Question = new mongoose.model('Question', questionSchema);
 module.exports = Question;

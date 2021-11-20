@@ -51,7 +51,14 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.post('/search', async (req, res) => {
+app.post('/searchquestion', async (req, res) => {
+    const { search } = req.body;
+    const questions = await Question.find({$text: {$search: search }})
+    .limit(10);
+    res.status(200).json(questions);
+});
+
+app.post('/searcharticle', async (req, res) => {
     const { search } = req.body;
     const articles = await Article.find({$text: {$search: search }})
     .limit(10);

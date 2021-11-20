@@ -1,51 +1,100 @@
 <% layout('/layouts/boilerplate') %>
 
-<h1 class="my-3">Search Articles</h1>
-<form class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" name="search" id="search" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="btn">Search</button>
-</form>
-<h1 class="my-3">Search Results</h1>
-<section class="card shadow p-3 mb-3 bg-body rounded"></section>
+    <h1 class="my-3">Search Articles</h1>
+    <form class="form-inline my-2 my-lg-0" id="form1">
+        <input class="form-control mr-sm-2" name="searchArticle" id="searchArticle" type="search" placeholder="Search"
+            aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="btn">Search</button>
+    </form>
+    <h1 class="my-3">Search Results for Articles</h1>
+    <section class="card shadow p-3 mb-3 bg-body rounded" id="searchArticleResults"></section>
 
-<script>
-    const form = document.querySelector('form');
-    const search = document.querySelector('#search');
-    const results = document.querySelector('.results');
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        search.textContent = '';
-        let section = document.querySelector('section');
-        while (section.firstChild) {
-            section.removeChild(section.firstChild);
-        }
+    <h1 class="my-3">Search Questions</h1>
+    <form class="form-inline my-2 my-lg-0" id="form2">
+        <input class="form-control mr-sm-2" name="searchQuestion" id="searchQuestion" type="search" placeholder="Search"
+            aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="btn">Search</button>
+    </form>
 
-        try {
-            const res = await fetch('/search', {
-                method: 'POST',
-                body: JSON.stringify({
-                    search: form.search.value
-                }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-            const articles = await res.json();
+    <h1 class="my-3">Search Results for Questions</h1>
+    <section class="card shadow p-3 mb-3 bg-body rounded" id="searchQuestionResults"></section>
 
-            for (let index = 0; index < articles.length; index++) {
-                const div = document.createElement('div');
-                const h2 = document.createElement('h2');
-                div.append(h2);
-                const hr = document.createElement('hr');
-                div.append(hr);
-                const a = document.createElement('a');
-                h2.append(a);
-                a.setAttribute('href', `/articles/${articles[index]._id}`);
-                a.append(`${articles[index].title}`)
-                section.append(div);
+
+    <script>
+        const form1 = document.querySelector('#form1');
+        const searchArticle = document.querySelector('#searchArticle');
+
+        form1.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            searchArticle.textContent = '';
+            let section = document.querySelector('#searchArticleResults');
+            while (section.firstChild) {
+                section.removeChild(section.firstChild);
             }
-        } catch (err) {
-            console.log(err);
-        }
-    });
-</script>
 
+            try {
+                const res = await fetch('/searcharticle', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        search: form1.searchArticle.value
+                    }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const articles = await res.json();
+                console.log(articles);
+                for (let index = 0; index < articles.length; index++) {
+                    const div = document.createElement('div');
+                    const h2 = document.createElement('h2');
+                    div.append(h2);
+                    const hr = document.createElement('hr');
+                    div.append(hr);
+                    const a = document.createElement('a');
+                    h2.append(a);
+                    a.setAttribute('href', `/articles/${articles[index]._id}`);
+                    a.append(`${articles[index].title}`)
+                    section.append(div);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        });
+
+        const form2 = document.querySelector('#form2');
+        const searchQuestion = document.querySelector('#searchQuestion');
+
+        form2.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            searchQuestion.textContent = '';
+            let section = document.querySelector('#searchQuestionResults');
+            while (section.firstChild) {
+                section.removeChild(section.firstChild);
+            }
+
+            try {
+                const res = await fetch('/searchquestion', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        search: form2.searchQuestion.value
+                    }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const questions = await res.json();
+                console.log(questions);
+                for (let index = 0; index < questions.length; index++) {
+                    const div = document.createElement('div');
+                    const h2 = document.createElement('h2');
+                    div.append(h2);
+                    const hr = document.createElement('hr');
+                    div.append(hr);
+                    const a = document.createElement('a');
+                    h2.append(a);
+                    a.setAttribute('href', `/articles/${questions[index]._id}`);
+                    a.append(`${questions[index].title}`)
+                    section.append(div);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        });
+    </script>
