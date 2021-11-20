@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/users");
 
+router.get('/update', async (req, res) => {
+    res.render('user/updateProfile.ejs');
+});
+
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     console.log(id)

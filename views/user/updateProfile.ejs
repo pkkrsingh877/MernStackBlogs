@@ -1,0 +1,84 @@
+<% layout('/layouts/boilerplate') %>
+
+<h2>Update Your Profile</h2>
+    <form>
+        <div class="mb-3">
+            <label for="name" class="form-label">
+            Enter Name:
+            </label> <br> 
+            <input type="text" name="name"
+            id="name" placeholder="name" class="form-control">
+            <div class="name error small red"></div>
+        </div> 
+        <div class="mb-3">
+            <label for="img" class="form-label">
+            Enter Profile Image URL:
+            </label> <br> 
+            <input type="text" name="img"
+            id="img" placeholder="img" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="bio" class="form-label">
+            Enter bio:
+            </label> <br> 
+            <input type="text" name="bio"
+            id="bio" placeholder="bio" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Enter Password: </label> <br> 
+            <input type="password" name="password"
+            id="password" placeholder="password" class="form-control">
+            <div class="password error small red"></div>
+        </div>
+        <button class="btn btn-success">Update</button>
+    </form>  
+
+    <script>
+        const form = document.querySelector('form');
+        const name = document.querySelector('.name.error');
+        const username = document.querySelector('.username.error');
+        const email = document.querySelector('.email.error');
+        const password = document.querySelector('.password.error');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            name.textContent = '';
+            username.textContent = '';
+            email.textContent = '';
+            password.textContent = '';
+            try {
+                const res = await fetch('/auth/signup', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        name: form.name.value,
+                        username: form.username.value,
+                        email: form.email.value,
+                        img: form.img.value,
+                        bio: form.bio.value,
+                        password: form.password.value
+                    }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+                if(data.signupError){                  
+                    if(data.signupError.name){
+                        name.textContent = data.signupError.name
+                    }
+                    if(data.signupError.username){
+                        username.textContent = data.signupError.username
+                    }
+                    if(data.signupError.email){
+                        email.textContent = data.signupError.email
+                    }
+                    if(data.signupError.password){
+                        password.textContent = data.signupError.password
+                    }
+                }
+                if(data.data){
+                    location.assign(`/user/${data.data._id}`);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        });
+    </script>
