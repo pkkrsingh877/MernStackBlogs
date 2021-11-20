@@ -26,6 +26,23 @@ router.post('/', async (req, res) => {
     res.status(200).redirect("/questions");
 });
 
+router.post("/:id", async (req, res) => {
+    const { id } = req.params;
+    const { name, email, comment } = req.body;
+    try {
+        const data = await Question.findByIdAndUpdate(
+            id,
+            {
+                $push: { comments: [{ name, email, comment }] },
+            },
+            { new: true, upsert: true }
+        );
+        res.redirect(`/questions/${id}`);
+    } catch (err) {
+        res.status(404).render("error");
+    }
+});
+
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     const question = await Question.findById(id);
