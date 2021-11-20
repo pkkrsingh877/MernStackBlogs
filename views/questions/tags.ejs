@@ -1,0 +1,62 @@
+<% layout('/layouts/boilerplate') %>
+
+<h1>Showing results for <%= tag %> </h1>
+<% for(let i = 0; i < questions.length; i++){ %>
+    <section class="card shadow p-3 mb-3 bg-body rounded">
+        <h2>
+            <a href="/questions/<%= questions[i]._id %>" class="title">
+                <%= questions[i].title %>
+            </a>
+        </h2>
+        <hr>
+        <article class="description m-3">
+            <%- questions[i].description %>
+             <a href="/questions/<%= questions[i]._id %>">[Read More...]</a>
+        </article>
+        <hr>
+            <div class="description text-muted container cardFooter">
+                <div class="row">
+                    <div class="col-sm">Modified at <%= questions[i].updatedAt %></div>
+                    <div class="col-sm">Created at <%= questions[i].createdAt %></div>
+                </div>
+            </div>
+    </section>
+<% } %>
+
+<section class="pagination d-flex flex-row flex-wrap justify-content-center card shadow p-2 mb-3 bg-body rounded">
+    <% if((currentPage - 1) >= 1) { %>
+        <div class="px-3 py-3">
+            <a href="/questions/tags/<%= tag %>?page=<%= currentPage - 1 %>"> Previous </a>
+        </div>
+    <% } else { %>
+        <div class="px-3 py-3">
+            <a href="#"> Previous </a>
+        </div>
+    <% } %> 
+    <% for(let i = temp; i < temp + 3; i++){ %>
+        <% if(i <= totalPages) { %>
+        <div class="px-5 py-3"> 
+            <a href="/questions/tags/<%= tag %>?page=<%= i %>"><%= i %></a> 
+        </div>
+        <% } else {%>
+            <% break; %>
+            <% } %>
+    <% } %>    
+    <% if(totalPages > 3) { %>
+        <div class="px-5 py-3"> 
+            <a href="#">...</a> 
+        </div>
+        <div class="px-5 py-3"> 
+            <a href="/questions/tags/<%= tag %>?page=<%= totalPages %>"><%= totalPages %></a> 
+        </div>
+    <% } %>
+    <% if((currentPage + 1) <= totalPages) { %>
+        <div class="px-3 py-3">
+            <a href="/questions/tags/<%= tag %>?page=<%= currentPage + 1 %>"> Next </a>
+        </div>
+    <% } else { %>
+        <div class="px-3 py-3">
+            <a href="#"> Next </a>
+        </div>
+    <% } %>    
+</section>
