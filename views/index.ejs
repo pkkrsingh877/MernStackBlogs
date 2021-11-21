@@ -5,8 +5,8 @@
             <p class="h1 text-center">Welcome back, <%= user.name %></p>
             <p class="description text-center text-muted">What would you like to do?</p>
             <p class="mb-1"><a href="/questions/new" id="simple-link">Ask a question</a></p>
-            <p class="mb-1"><a href="/user/<%= user._id %>" id="simple-link">View your profile</a></p>
-            <p class="mb-1"><a href="#" id="simple-link">Update your profile</a></p>
+            <p class="mb-1"><a href="/user/profile" id="simple-link">View your profile</a></p>
+            <p class="mb-1"><a href="/user/update" id="simple-link">Update your profile</a></p>
             <p class="mb-1"><a href="/auth/logout" id="simple-link">Logout</a></p>
         </section>
     <% }else{ %>
