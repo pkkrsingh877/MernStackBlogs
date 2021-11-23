@@ -20,6 +20,12 @@ const userSchema = mongoose.Schema({
         type: String,
         default: ""
     },
+    role: {
+        type: String,
+        enum: ['user', 'moderator', 'admin'],
+        default: 'user',
+        required: true
+    },
     img: {
         type: String,
         default: "https://letmestudyhere.files.wordpress.com/2021/11/dodger-blue_035032206.jpg"
