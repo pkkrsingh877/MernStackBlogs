@@ -3,6 +3,18 @@ const router = express.Router();
 const User = require("../models/users");
 const checkUser = require('../middlewares/checkUserMiddleware');
 
+router.delete('/savedarticles', checkUser, async (req, res) => {
+    try {
+        const { articleId } = req.body;
+        const data = await User.findByIdAndUpdate(res.locals.user._id, {
+            $pull: { saved: articleId }
+        }, { new: true });
+        res.status(301).json({ url: '/user/savedarticles' });
+    } catch (err) {
+        res.status(400).end();
+    }   
+});
+
 router.get('/savedarticles', checkUser, async (req, res) => {
     let { page, skip, limit } = req.query;
     limit = parseInt(limit);
