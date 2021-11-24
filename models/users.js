@@ -30,6 +30,7 @@ const userSchema = mongoose.Schema({
         type: String,
         default: "https://letmestudyhere.files.wordpress.com/2021/11/dodger-blue_035032206.jpg"
     },
+    saved: [ mongoose.Schema.Types.ObjectId ],
     password: {
         type: String,
         minlength: [8, 'Password length needs to be at least 8!'],

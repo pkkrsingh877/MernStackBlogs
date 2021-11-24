@@ -3,6 +3,26 @@ const router = express.Router();
 const User = require("../models/users");
 const checkUser = require('../middlewares/checkUserMiddleware');
 
+router.get('/savedarticles', checkUser, async (req, res) => {
+    const savedArticles = res.locals.user.saved;
+    res.status(200).render('user/savedArticles', { savedArticles });
+});
+
+router.post('/save', checkUser, async (req, res) => {
+    try {
+        const { articleId } = req.body;
+        if(res.locals.user){
+            await User.findByIdAndUpdate(res.locals.user._id, {
+                $addToSet: {saved: articleId }
+            });
+        }
+        res.status(200).end();
+    } catch (err) {
+        console.log(err);
+        res.status(400).end();
+    }
+});
+
 router.post('/update', checkUser, async (req, res) => {
     try {
         if(res.locals.user.id){

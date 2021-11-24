@@ -1,0 +1,11 @@
+<% layout('/layouts/boilerplate') %>
+<h1 class="text-center">Saved Articles</h1>
+<section class="d-flex flex-column card shadow p-3 mb-3 bg-body rounded">
+    <% for( let index = 0; index < savedArticles.length; index++ ) { %>
+        <ol>
+            <li><a href="/articles/<%= savedArticles[index]._id%>" class="description">
+                Kitty Ipsum
+            </a></li>
+        </ol>
+    <% } %>
+</section>

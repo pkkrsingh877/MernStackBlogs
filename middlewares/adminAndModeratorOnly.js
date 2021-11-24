@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/users');
 require('dotenv').config();
 
-const isAdmin = (req, res, next) => {
+const adminAndModeratorOnly = (req, res, next) => {
     const token = req.cookies.jwt;
     if(token){
         jwt.verify(token, process.env.SECRET, async (err, decodedToken) => {
@@ -10,7 +10,7 @@ const isAdmin = (req, res, next) => {
                 res.redirect('/');
             }else{
                 let user = await User.findById(decodedToken.id);
-                if(user.role === 'admin'){
+                if(user.role === 'moderator' || user.role === 'admin'){
                     res.locals.user = user;
                     next();
                 }else{
@@ -23,4 +23,4 @@ const isAdmin = (req, res, next) => {
     }
 }
 
-module.exports = isAdmin;
+module.exports = adminAndModeratorOnly;
