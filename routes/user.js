@@ -34,11 +34,10 @@ router.get('/savedarticles', checkUser, async (req, res) => {
         let savedArticles = res.locals.user.saved;
         console.log("full", savedArticles);
         const skipAndLimit = (page, skip) => {
+            //for skipping
             savedArticles = savedArticles.slice((page - 1)*skip, ((page - 1)*skip)+4);
-            console.log(page, skip)
-            console.log("skip", savedArticles);
+            //for limiting 
             savedArticles = savedArticles.slice(0, 4);
-            console.log("limit", savedArticles);
         }    
 
         skipAndLimit(page, skip);
