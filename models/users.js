@@ -28,9 +28,12 @@ const userSchema = mongoose.Schema({
     },
     img: {
         type: String,
-        default: "https://letmestudyhere.files.wordpress.com/2021/11/dodger-blue_035032206.jpg"
+        default: 'https://letmestudyhere.files.wordpress.com/2021/11/dodger-blue_035032206.jpg'
     },
-    saved: [ mongoose.Schema.Types.ObjectId ],
+    saved: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Article'
+    }],
     password: {
         type: String,
         minlength: [8, 'Password length needs to be at least 8!'],
