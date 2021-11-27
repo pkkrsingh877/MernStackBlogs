@@ -2,7 +2,12 @@
 
 ## Features To Be Added
 
-1. The Category feature, unique categories
+1. Plain text rendering
+2. Pagination on question routes
+3. Save button on each article.
+4. Have seperate search routes.
+5. Editor routes
+6. The Category feature, unique categories
 
 ## Features That Have Been Added
 

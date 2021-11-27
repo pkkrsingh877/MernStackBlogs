@@ -33,6 +33,8 @@ const userRoutes = require('./routes/user');
 app.use('/user', userRoutes);
 const questionRoutes = require('./routes/questions');
 app.use('/questions', checkUserMiddleware, questionRoutes);
+const searchRoutes = require('./routes/search');
+app.use('/search', searchRoutes);
 
 //setting up mongodb
 mongoose.connect(process.env.MONGO_URI, {
@@ -51,24 +53,6 @@ mongoose.connect(process.env.MONGO_URI, {
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-app.post('/searchquestion', async (req, res) => {
-    const { search } = req.body;
-    const questions = await Question.find({$text: {$search: search }})
-    .limit(10);
-    res.status(200).json(questions);
-});
-
-app.post('/searcharticle', async (req, res) => {
-    const { search } = req.body;
-    const articles = await Article.find({$text: {$search: search }})
-    .limit(10);
-    res.status(200).json(articles);
-});
-
-app.get('/search', (req, res) => {
-    res.render('search');
-});
 
 app.get('/about', (req, res) => {
     res.render('about');

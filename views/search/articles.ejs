@@ -1,0 +1,50 @@
+<% layout('/layouts/boilerplate') %>
+
+    <h1 class="my-3">Search Articles</h1>
+    <form class="form-inline my-2 my-lg-0" id="form">
+        <input class="form-control mr-sm-2" name="searchArticle" id="searchArticle" type="search" placeholder="Search"
+            aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="btn">Search</button>
+    </form>
+    <h1 class="my-3">Search Results for Articles</h1>
+    <section class="card shadow p-3 mb-3 bg-body rounded" id="searchArticleResults"></section>
+
+    <script>
+        const form = document.querySelector('#form');
+        const searchArticle = document.querySelector('#searchArticle');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            searchArticle.textContent = '';
+            let section = document.querySelector('#searchArticleResults');
+            while (section.firstChild) {
+                section.removeChild(section.firstChild);
+            }
+
+            try {
+                const res = await fetch('/search/articles', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        search: form.searchArticle.value
+                    }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const articles = await res.json();
+                console.log(articles);
+                for (let index = 0; index < articles.length; index++) {
+                    const div = document.createElement('div');
+                    const h2 = document.createElement('h2');
+                    div.append(h2);
+                    const hr = document.createElement('hr');
+                    div.append(hr);
+                    const a = document.createElement('a');
+                    h2.append(a);
+                    a.setAttribute('href', `/articles/${articles[index]._id}`);
+                    a.append(`${articles[index].title}`)
+                    section.append(div);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        });
+    </script>
