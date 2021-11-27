@@ -13,15 +13,17 @@ router.post('/viewcount', async (req, res) => {
 
 router.post("/:id", async (req, res) => {
     const { id } = req.params;
-    const { name, email, comment } = req.body;
+    const { comment, user } = req.body;
+    const createdAt = Date.now();
     try {
         const data = await Article.findByIdAndUpdate(
             id,
             {
-                $push: { comments: [{ name, email, comment }] },
+                $push: { comments: [{ comment, user, createdAt }] },
             },
             { new: true, upsert: true }
         );
+        console.log(data);
         res.redirect(`/articles/${id}`);
     } catch (err) {
         res.status(404).render("error");
@@ -31,8 +33,15 @@ router.post("/:id", async (req, res) => {
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const data = await Article.findById(id);
-        res.status(200).render("articles/show", { data });
+        const article = await Article.findById(id).populate({
+            path: 'comments',	
+            populate: { 
+                path:  'user',
+                model: 'User' 
+            }
+          });
+        const comments = article.comments;
+        res.status(200).render("articles/show", { article, comments });
     } catch (err) {
         res.status(404).render("error");
     }
@@ -118,6 +127,7 @@ router.get("/", async (req, res) => {
         }
         res.render("articles/index", { data, totalPages, currentPage, temp });
     } catch (err) {
+        console.log(err)
         res.status(404).render("error");
     }
 });

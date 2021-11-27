@@ -55,6 +55,7 @@ router.get("/tags/:tag", async (req, res) => {
 });
 
 router.get('/new', async (req, res) => {
+    console.log(res.locals.user);
     res.render('questions/new');
 });
 
@@ -71,12 +72,14 @@ router.post('/', async (req, res) => {
 
 router.post("/:id", async (req, res) => {
     const { id } = req.params;
-    const { name, email, comment } = req.body;
+    const { comment, user } = req.body;
+    console.log(req.body);
+    const createdAt = Date.now();
     try {
         const data = await Question.findByIdAndUpdate(
             id,
             {
-                $push: { comments: [{ name, email, comment }] },
+                $push: { comments: [{ comment, user, createdAt }] },
             },
             { new: true, upsert: true }
         );
@@ -88,8 +91,21 @@ router.post("/:id", async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    const question = await Question.findById(id);
-    res.render('questions/show', { question });
+    const currentUser = res.locals.user;
+    try {
+        const question = await Question.findById(id).populate({
+            path: 'comments',	
+            populate: { 
+                path:  'user',
+                model: 'User' 
+            }
+          });
+          console.log(question);
+          const comments = question.comments;
+        res.render('questions/show', { question, comments, currentUser });
+    } catch (err) {
+        res.status(404).render("error");
+    }
 });
 
 router.get('/', async (req, res) => {

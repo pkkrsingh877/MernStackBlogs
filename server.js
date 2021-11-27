@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 //requiring files
 const articlesRoutes = require('./routes/articles');
-app.use('/articles', articlesRoutes);
+app.use('/articles', checkUserMiddleware, articlesRoutes);
 const adminRoutes = require('./routes/admin');
 app.use('/admin', adminOnly, adminRoutes);
 const authRoutes = require('./routes/auth');
@@ -32,7 +32,7 @@ app.use('/auth', authRoutes);
 const userRoutes = require('./routes/user');
 app.use('/user', userRoutes);
 const questionRoutes = require('./routes/questions');
-app.use('/questions', questionRoutes);
+app.use('/questions', checkUserMiddleware, questionRoutes);
 
 //setting up mongodb
 mongoose.connect(process.env.MONGO_URI, {

@@ -20,13 +20,14 @@ const articleSchema = new mongoose.Schema({
     modifiedAt: {
         type: Date
     },
-    comments: [{
-        name: { type: String, required: [true, "Please, Enter your name"] },
-        email: { type: String, default: "" },
+    comments: [{         
+        _id: false,
         comment: { type: String, required: [true, "Please, Enter the comment"] },
-        createdAt: { type: Date, default: Date.now }
-      }],
-    views: Number  
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        createdAt: Date   
+    }],
+    views: Number,
+    userId: { type: mongoose.Schema.Types.ObjectId }
 });
 articleSchema.index({title: 'text', description: 'text'});
 //create model

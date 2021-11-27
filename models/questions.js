@@ -11,11 +11,13 @@ const questionSchema = new mongoose.Schema({
     },
     tags: [String],
     comments: [{
-        name: { type: String, required: [true, "Please, Enter your name"] },
-        email: { type: String, default: "" },
+        _id: false,
         comment: { type: String, required: [true, "Please, Enter the comment"] },
-      }, {timestamps: true}],
-    views: Number  
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        createdAt: Date
+      }],
+    views: Number,
+    userId: { type: mongoose.Schema.Types.ObjectId }
 }, {timestamps: true});
 //create model
 questionSchema.index({title: 'text', description: 'text'});
