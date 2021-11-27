@@ -23,3 +23,41 @@
             </div>
         </section>
     <% } %>
+
+    <section class="pagination d-flex flex-row flex-wrap justify-content-center card shadow p-2 mb-3 bg-body rounded">
+        <% if((currentPage - 1) >= 1) { %>
+            <div class="px-3 py-3">
+                <a href="/questions?page=<%= currentPage - 1 %>"> Previous </a>
+            </div>
+        <% } else { %>
+            <div class="px-3 py-3">
+                <a href="#"> Previous </a>
+            </div>
+        <% } %> 
+        <% for(let i = temp; i < temp + 3; i++){ %>
+            <% if(i <= totalPages) { %>
+            <div class="px-5 py-3"> 
+                <a href="/questions?page=<%= i %>"><%= i %></a> 
+            </div>
+            <% } else {%>
+                <% break; %>
+                <% } %>
+        <% } %>    
+        <% if(totalPages > 3) { %>
+            <div class="px-5 py-3"> 
+                <a href="#">...</a> 
+            </div>
+            <div class="px-5 py-3"> 
+                <a href="/questions?page=<%= totalPages %>"><%= totalPages %></a> 
+            </div>
+        <% } %>
+        <% if((currentPage + 1) <= totalPages) { %>
+            <div class="px-3 py-3">
+                <a href="/questions?page=<%= currentPage + 1 %>"> Next </a>
+            </div>
+        <% } else { %>
+            <div class="px-3 py-3">
+                <a href="#"> Next </a>
+            </div>
+        <% } %>    
+    </section>

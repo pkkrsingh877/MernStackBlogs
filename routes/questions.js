@@ -109,8 +109,47 @@ router.get('/:id', async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-    const questions = await Question.find({});
-    res.render('questions/index', { questions });
+    try {
+        let { page, skip, limit } = req.query;
+        limit = parseInt(limit);
+        page = parseInt(page);
+        skip = parseInt(skip);
+        if (!page || page < 0) {
+            page = 1;
+        }
+        if (!skip || skip < 0) {
+            skip = 4;
+        }
+        if (!limit || limit < 0) {
+            limit = 4;
+        }
+        const currentPage = parseInt(page);
+        let temp = currentPage;
+        if (temp != 1) {
+            temp--;
+        }
+
+        const count = await Question.countDocuments();
+
+        const totalPages = Math.ceil(count / limit);
+        if (page > totalPages) {
+            temp = totalPages - 1;
+            page = totalPages;
+        }
+
+        const questions = await Question.find({}).skip((page - 1) * skip)
+        .limit(limit)
+        .sort({ createdAt: -1 });
+
+        for (let i = 0; i < questions.length; i++) {
+            let newStr = getNewDescription(questions[i].description);
+            questions[i].description = newStr;
+        }
+        res.render('questions/index', { questions, totalPages, currentPage, temp });
+    } catch (err) {
+        console.log(err);
+        res.status(404).render('error');
+    }
 });
 
 module.exports = router;
