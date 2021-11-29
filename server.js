@@ -35,6 +35,8 @@ const questionRoutes = require('./routes/questions');
 app.use('/questions', checkUserMiddleware, questionRoutes);
 const searchRoutes = require('./routes/search');
 app.use('/search', searchRoutes);
+const editorRoutes = require('./routes/editor');
+app.use('/editor', editorRoutes);
 
 //setting up mongodb
 mongoose.connect(process.env.MONGO_URI, {
