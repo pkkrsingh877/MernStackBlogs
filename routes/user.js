@@ -4,6 +4,14 @@ const User = require("../models/users");
 const Article = require("../models/articles");
 const checkUser = require("../middlewares/checkUserMiddleware");
 
+router.post('/applying', checkUser, async (req, res) => {
+	const data = await User.findByIdAndUpdate(res.locals.user_id, {
+		// The code to handle applying request goes over here
+	});
+	// I'll just end the cycle here because I want to work on the editor's features
+	res.end();
+});
+
 router.delete("/savedarticles", checkUser, async (req, res) => {
 	try {
 		const { articleId } = req.body;

@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const authMiddleware = require('./middlewares/authMiddleware');
 const checkUserMiddleware = require('./middlewares/checkUserMiddleware');
 const adminOnly = require('./middlewares/adminOnly');
+const editorOrAdmin = require('./middlewares/editorOrAdmin');
 const Question = require('./models/questions');
 const Article = require('./models/articles');
 const getNewDescription = require('./functions/getNewDescription');
@@ -36,7 +37,7 @@ app.use('/questions', checkUserMiddleware, questionRoutes);
 const searchRoutes = require('./routes/search');
 app.use('/search', searchRoutes);
 const editorRoutes = require('./routes/editor');
-app.use('/editor', editorRoutes);
+app.use('/editor', editorOrAdmin, editorRoutes);
 
 //setting up mongodb
 mongoose.connect(process.env.MONGO_URI, {
