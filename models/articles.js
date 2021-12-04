@@ -27,7 +27,7 @@ const articleSchema = new mongoose.Schema({
         createdAt: Date   
     }],
     views: Number,
-    userId: { type: mongoose.Schema.Types.ObjectId }
+    writer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 articleSchema.index({title: 'text', description: 'text'});
 //create model

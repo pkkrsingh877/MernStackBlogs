@@ -71,6 +71,7 @@ router.post("/", async (req, res) => {
             modifiedAt: new Date(),
             readMinutes: minutes,
             tags: prepareTags,
+            writer: res.locals.user._id
         });    
         res.redirect("admin");
     } catch (err) {

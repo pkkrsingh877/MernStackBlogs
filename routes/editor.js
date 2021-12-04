@@ -8,12 +8,21 @@ router.post('/', async (req, res) => {
     try {
         const { title, description, tags } = req.body;
         let prepareTags = prepareSomeTags(tags);
-        const article = await Article.create({ title, description, tags: prepareTags, createdAt: new Date(), modifiedAt: new Date(), readMinutes:  readMinutes(description) });    
+        const article = await Article.create({ 
+            title, 
+            description, 
+            tags: prepareTags, 
+            createdAt: new Date(), 
+            modifiedAt: new Date(), 
+            readMinutes:  readMinutes(description), 
+            writer: res.locals.user._id 
+        });    
+        console.log(article);
+        res.status(200).redirect('/editor');
     } catch (err) {
         console.log(err);
         res.status(400).send('Something went wrong...');
     }
-    res.end();
 });
 
 router.get('/new', (req, res) => {
