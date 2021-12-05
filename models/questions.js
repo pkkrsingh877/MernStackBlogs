@@ -17,7 +17,7 @@ const questionSchema = new mongoose.Schema({
         createdAt: Date
       }],
     views: Number,
-    userId: { type: mongoose.Schema.Types.ObjectId }
+    questioner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, {timestamps: true});
 //create model
 questionSchema.index({title: 'text', description: 'text'});

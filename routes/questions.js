@@ -55,19 +55,11 @@ router.get("/tags/:tag", async (req, res) => {
 });
 
 router.get('/new', async (req, res) => {
-    console.log(res.locals.user);
-    res.render('questions/new');
-});
-
-router.post('/', async (req, res) => {
-    const { title, description, tags } = req.body;
-    let prepareTags = prepareSomeTags(tags);
-    const question = await Question.create({
-        title: title, 
-        description: description,
-        tags: prepareTags
-    });
-    res.status(200).redirect("/questions");
+    if(res.locals.user){
+        res.render('questions/new');
+    }else{
+        res.redirect('/auth/login');
+    }
 });
 
 router.post("/:id", async (req, res) => {
@@ -105,6 +97,27 @@ router.get('/:id', async (req, res) => {
         res.render('questions/show', { question, comments, currentUser });
     } catch (err) {
         res.status(404).render("error");
+    }
+});
+
+router.post('/', async (req, res) => {
+    if(res.locals.user){
+        try {
+            const { title, description, tags } = req.body;
+            let prepareTags = prepareSomeTags(tags);
+            const question = await Question.create({
+                title: title, 
+                description: description,
+                tags: prepareTags,
+                questioner: res.locals.user._id
+            });
+            res.status(200).redirect("/questions");
+        } catch (err) {
+            console.log(err);
+            res.status(400).send('Something went wrong...');
+        }
+    }else{
+        res.redirect('/auth/login');
     }
 });
 
