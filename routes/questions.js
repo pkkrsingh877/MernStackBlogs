@@ -1,5 +1,6 @@
 const express = require('express');
 const Question = require('../models/questions');
+const User = require('../models/users');
 const prepareSomeTags = require('../functions/prepareSomeTags');
 const getIdFromURL = require('../functions/getIdFromURL');
 const getNewDescription = require('../functions/getNewDescription');
@@ -111,6 +112,16 @@ router.post('/', async (req, res) => {
                 tags: prepareTags,
                 questioner: res.locals.user._id
             });
+
+            const newQuestionId = question._id; 
+            const user = await User.findByIdAndUpdate(res.locals.user._id, {
+                $push: { questions : newQuestionId },
+            },
+            {
+                new: true,
+                upsert: true,
+            });
+            
             res.status(200).redirect("/questions");
         } catch (err) {
             console.log(err);
