@@ -16,8 +16,17 @@ router.post('/', async (req, res) => {
             modifiedAt: new Date(), 
             readMinutes:  readMinutes(description), 
             writer: res.locals.user._id 
-        });    
-        console.log(article);
+        });   
+
+        const newArticleId = article._id; 
+        const user = await User.findByIdAndUpdate(res.locals.user._id, {
+            $push: { articles : newArticleId },
+        },
+        {
+            new: true,
+            upsert: true,
+        });
+        
         res.status(200).redirect('/editor');
     } catch (err) {
         console.log(err);

@@ -4,6 +4,7 @@ const getNewDescription = require("../functions/getNewDescription");
 const prepareSomeTags = require("../functions/prepareSomeTags");
 const readMinutes = require("../functions/readMinutes");
 const Article = require("../models/articles");
+const User = require("../models/users");
 
 router.patch("/list/:id", async (req, res) => {
     const { title, description, tags } = req.body;
@@ -64,7 +65,7 @@ router.post("/", async (req, res) => {
     try {
         let prepareTags = prepareSomeTags(tags);
         let minutes = readMinutes(description);
-        const data = await Article.create({
+        const article = await Article.create({
             title: title,
             description: description,
             createdAt: new Date(),
@@ -72,9 +73,20 @@ router.post("/", async (req, res) => {
             readMinutes: minutes,
             tags: prepareTags,
             writer: res.locals.user._id
-        });    
-        res.redirect("admin");
+        });   
+        
+        const newArticleId = article._id; 
+        const user = await User.findByIdAndUpdate(res.locals.user._id, {
+            $push: { articles : newArticleId },
+        },
+        {
+            new: true,
+            upsert: true,
+        });
+        
+        res.redirect("/admin");
     } catch (err) {
+        console.log(err);
         res.status(404).render('error');
     }
 });
