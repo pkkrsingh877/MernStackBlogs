@@ -2,7 +2,52 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/users");
 const Article = require("../models/articles");
+const Question = require("../models/questions");
 const checkUser = require("../middlewares/checkUserMiddleware");
+const prepareSomeTags = require('../functions/prepareSomeTags');
+
+router.delete('/questions/delete/:id', async (req, res) => {
+	try{
+		const { id } = req.params;
+		await Question.findByIdAndDelete(id);
+		res.status(200).redirect('/user/questions');
+	}catch(err){
+		console.log(err);
+		res.status(400).render('error');
+	}
+});
+
+router.patch('/questions/edit/:id', async (req, res) => {
+	try{
+		const { id } = req.params;
+		const { title, description, tags } = req.body;
+		console.log(id, req.body)
+		const question = await Question.findByIdAndUpdate(id, {
+			title: title,
+			description: description.trim(),
+			tags: prepareSomeTags(tags)
+		}, {
+			new: true
+		});
+		console.log(question);
+		res.status(200).redirect('/user/questions');
+	}catch(err){
+		console.log(err);
+		res.status(400).render('error');
+	}
+});
+
+router.get('/questions/edit/:id', async (req, res) => {
+	const { id } = req.params;
+	const question = await Question.findById(id);
+	res.render('user/editQuestion', { question });
+});
+
+router.get('/questions', async (req, res) => {
+	const user = await User.findById(res.locals.user._id).populate('questions');
+	const questions = user.questions;
+	res.render('user/questions', { questions });
+});
 
 router.post('/applying', checkUser, async (req, res) => {
 	const data = await User.findByIdAndUpdate(res.locals.user_id, {

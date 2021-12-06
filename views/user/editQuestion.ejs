@@ -1,0 +1,26 @@
+<% layout('/layouts/boilerplate') %>
+
+<form action="/user/questions/edit/<%= question._id %>?_method=PATCH" method="post">
+    <div class="mb-3">
+        <label for="title" class="form-label">Title: </label> <br> 
+        <input type="text" name="title"
+        id="title" placeholder="title" value= "<%= question.title %>" class="form-control">
+    </div>
+    <div>
+        <label for="description" class="form-label">Description: </label><br>
+        <textarea id ="description" class="form-control" placeholder="description"
+        name="description" id="" cols="30" rows="4">
+        <%= question.description %>
+        </textarea>
+    </div>
+    <div class="mb-3">
+        <label for="tags" class="form-label">Tags: </label><br>
+        <textarea id ="tags" placeholder="tags"
+        name="tags" cols="30" rows="2" class="form-control">
+        <%= question.tags %>
+    </textarea>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-success">Edit</button>
+    </div>
+</form>

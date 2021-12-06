@@ -1,0 +1,25 @@
+<% layout('/layouts/boilerplate') %>
+
+<h1 class="text-center">My Questions</h1>
+
+<% if (questions.length) { %>
+    <section class="d-flex flex-column card shadow p-3 mb-3 bg-body rounded">
+        <% for( let index = 0; index < questions.length; index++ ) { %>
+            <ol class="d-flex flex-row justify-content-center align-items-center">
+                <li class="m-3"><a href="/questions/<%= questions[index]._id%>" class="description">
+                    <%= questions[index].title%>
+                </a></li>
+                <a href="/user/questions/edit/<%= questions[index]._id%>" class="btn btn-primary m-3 text-white" id="edit<%= index %>">Edit</a>
+                <form action="/user/questions/delete/<%= questions[index]._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger m-3">Delete</button>
+                </form>
+            </ol>
+        <% } %>
+    </section>
+<% } else { %>
+    <section class="d-flex flex-column card shadow p-3 mb-3 bg-body rounded">
+        <div class="description text-center">
+            You have not asked any questions yet.
+        </div>
+    </section>
+    <% } %>
