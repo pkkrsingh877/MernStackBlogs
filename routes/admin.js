@@ -6,6 +6,49 @@ const readMinutes = require("../functions/readMinutes");
 const Article = require("../models/articles");
 const User = require("../models/users");
 
+router.post("/user/requests/decline/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findByIdAndUpdate(id, {
+            hasAppliedToBeEditor: false
+        },{
+            new: true
+        });
+        console.log(user);
+        res.status(200).redirect('/admin/user/requests');
+    } catch (err) {
+        console.log(err);
+        res.status(400).render('error');
+    }
+});
+
+router.post("/user/requests/accept/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findByIdAndUpdate(id, {
+            role: 'editor'
+        },{
+            new: true
+        });
+        console.log(user);
+        res.status(200).redirect('/admin/user/requests');
+    } catch (err) {
+        console.log(err);
+        res.status(400).render('error');
+    }
+});
+
+router.get("/user/requests", async (req, res) => {
+    try {
+        const users = await User.find({ hasAppliedToBeEditor: true, role: 'user' });
+        console.log(users);
+        res.status(200).render('admin/userRequests', { users });
+    } catch (err) {
+        console.log(err);
+        res.status(400).render('error');
+    }
+});
+
 router.patch("/articles/edit/:id", async (req, res) => {
     try {
         const { title, description, tags } = req.body;
