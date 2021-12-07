@@ -4,6 +4,12 @@
         <section class="d-flex flex-column justify-content-center align-items-center card shadow p-3 mb-3 bg-body rounded">
             <p class="h1 text-center">Welcome back, <%= user.name %></p>
             <p class="description text-center text-muted">What would you like to do?</p>
+            <% if (user.role === 'admin') { %>
+                <p class="mb-1"><a href="/admin" id="simple-link">Go to the Admin page</a></p>
+                <p class="mb-1"><a href="/editor" id="simple-link">Go to the Editor page</a></p>
+            <% } else if(user.role === 'editor') { %>
+                <p class="mb-1"><a href="/editor" id="simple-link">Go to the Editor page</a></p>
+                <% } %>
             <p class="mb-1"><a href="/questions/new" id="simple-link">Ask a question</a></p>
             <p class="mb-1"><a href="/user/savedarticles" id="simple-link">View Saved Articles</a></p>
             <p class="mb-1"><a href="/user/questions" id="simple-link">View Your Questions</a></p>
@@ -21,9 +27,7 @@
         </section>
     <% } %>
 
-    <hr>
-    <h1>Most Popular Articles</h1>
-    <hr>
+    <h1 class="text-center">Most Popular Articles</h1>
 
     <% for(let i = 0; i < articles.length; i++){ %>
         <section class="card shadow p-3 mb-3 bg-body rounded">
@@ -52,9 +56,7 @@
         </section>
     <% } %>
 
-    <hr>
-    <h1>Most Popular Questions</h1>
-    <hr>
+    <h1 class="text-center">Most Popular Questions</h1>
 
     <% for( let index = 0; index < questions.length; index++ ) { %>
         <section class="card shadow p-3 mb-3 bg-body rounded">
