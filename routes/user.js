@@ -6,6 +6,20 @@ const Question = require("../models/questions");
 const checkUser = require("../middlewares/checkUserMiddleware");
 const prepareSomeTags = require('../functions/prepareSomeTags');
 
+router.get('/applying', async (req, res) => {
+	try {
+		const user = await User.findByIdAndUpdate(res.locals.user._id, {
+			hasAppliedToBeEditor: true
+		}, {
+			new: true
+		});
+		console.log(user);
+		res.redirect('/');
+	} catch (err) {
+		res.status(400).render("error");
+	}
+});
+
 router.delete('/questions/delete/:id', async (req, res) => {
 	try{
 		const { id } = req.params;
@@ -47,14 +61,6 @@ router.get('/questions', async (req, res) => {
 	const user = await User.findById(res.locals.user._id).populate('questions');
 	const questions = user.questions;
 	res.render('user/questions', { questions });
-});
-
-router.post('/applying', checkUser, async (req, res) => {
-	const data = await User.findByIdAndUpdate(res.locals.user_id, {
-		// The code to handle applying request goes over here
-	});
-	// I'll just end the cycle here because I want to work on the editor's features
-	res.end();
 });
 
 router.delete("/savedarticles", checkUser, async (req, res) => {

@@ -26,6 +26,10 @@ const userSchema = mongoose.Schema({
         default: 'user',
         required: true
     },
+    hasAppliedToBeEditor: {
+        type: Boolean,
+        default: false
+    },
     img: {
         type: String,
         default: 'https://letmestudyhere.files.wordpress.com/2021/11/dodger-blue_035032206.jpg'
