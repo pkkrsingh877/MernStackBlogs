@@ -6,58 +6,54 @@ const readMinutes = require("../functions/readMinutes");
 const Article = require("../models/articles");
 const User = require("../models/users");
 
-router.patch("/list/:id", async (req, res) => {
-    const { title, description, tags } = req.body;
-    let newTitle = title;
-    let newDescription = description;
-    let prepareTags = prepareSomeTags(tags);
-    let minutes = readMinutes(newDescription);
-    const { id } = req.params;
+router.patch("/articles/edit/:id", async (req, res) => {
     try {
-        const data = await Article.findByIdAndUpdate(
+        const { title, description, tags } = req.body;
+        const { id } = req.params;
+        const article = await Article.findByIdAndUpdate(
             id,
             {
-                title: newTitle,
-                description: newDescription,
+                title: title,
+                description: description,
                 modifiedAt: new Date(),
-                tags: prepareTags,
-                readMinutes: minutes,
+                tags: prepareSomeTags(tags),
+                readMinutes: readMinutes(description),
             },
             {
                 new: true,
                 upsert: true,
             }
         );
+        res.status(200).redirect("/admin/articles");
     } catch (error) {
         console.log(error);
         res.status(400).render("error");
     }
-    res.redirect("/admin/list");
 });
 
-router.get("/list/edit/:id", async (req, res) => {
-    const { id } = req.params;
+router.get("/articles/edit/:id", async (req, res) => {
     try {
-        const data = await Article.findById(id);
-        res.render("admin/edit", { data });
+        const { id } = req.params;
+        const article = await Article.findById(id);
+        res.render("admin/editArticle", { article });
     } catch (err) {
         res.status(404).render("error");
     }
 });
 
-router.delete("/list/:id", async (req, res) => {
+router.delete("/articles/delete/:id", async (req, res) => {
     const { id } = req.params;
     try {
         await Article.findByIdAndDelete(id);
-        res.redirect("/admin/list");
+        res.redirect("/admin/articles");
     } catch (err) {
         res.status(404).render("error");
     }
 });
 
-router.get("/list", async (req, res) => {
-    const data = await Article.find({});
-    res.render("admin/list", { data });
+router.get("/articles", async (req, res) => {
+    const articles = await Article.find({}).sort({ createdAt: 1 });
+    res.render("admin/articles", { articles });
 });
 
 router.post("/", async (req, res) => {

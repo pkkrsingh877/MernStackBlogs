@@ -1,10 +1,8 @@
 <% layout('/layouts/boilerplate') %>
-    <h1>Admin Portal</h1>
-    <ul>
-        <li><a href="/admin/new">Create new Summary</a>
-        </li>
-        <li><a href="/admin/list">List All Summary</a>
-        </li>
-        <li><a href="/articles">Visit as user</a></li>
-    </ul>
+    <section class="d-flex flex-column justify-content-center align-items-center card shadow p-3 mb-3 bg-body rounded">
+        <p class="h1 text-center">Admin</p>
+        <p class="description text-center text-muted">What would you like to do?</p>
+        <p class="mb-1"><a href="/admin/new" id="simple-link">Write an article</a></p>
+        <p class="mb-1"><a href="/admin/articles" id="simple-link">List all articles</a></p>
+    </section>
     
