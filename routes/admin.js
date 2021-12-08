@@ -14,7 +14,6 @@ router.post("/user/requests/decline/:id", async (req, res) => {
         },{
             new: true
         });
-        console.log(user);
         res.status(200).redirect('/admin/user/requests');
     } catch (err) {
         console.log(err);
@@ -30,7 +29,6 @@ router.post("/user/requests/accept/:id", async (req, res) => {
         },{
             new: true
         });
-        console.log(user);
         res.status(200).redirect('/admin/user/requests');
     } catch (err) {
         console.log(err);
@@ -41,7 +39,6 @@ router.post("/user/requests/accept/:id", async (req, res) => {
 router.get("/user/requests", async (req, res) => {
     try {
         const users = await User.find({ hasAppliedToBeEditor: true, role: 'user' });
-        console.log(users);
         res.status(200).render('admin/userRequests', { users });
     } catch (err) {
         console.log(err);
@@ -85,9 +82,22 @@ router.get("/articles/edit/:id", async (req, res) => {
 });
 
 router.delete("/articles/delete/:id", async (req, res) => {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
         await Article.findByIdAndDelete(id);
+        users = await User.find({ saved: id });
+        users.forEach(user => {
+            const removeIdFromSavedArray = async (user) => {
+                await User.findByIdAndUpdate(user._id, {
+                    $pull: {
+                        saved: id,
+                    }
+                }, {
+                    new: true
+                });
+            }
+            removeIdFromSavedArray(user);
+        });
         res.redirect("/admin/articles");
     } catch (err) {
         res.status(404).render("error");

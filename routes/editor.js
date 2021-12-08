@@ -9,6 +9,19 @@ router.delete('/articles/delete/:id', async (req, res) => {
     try {
         const { id } = req.params;
         await Article.findByIdAndDelete(id);
+        users = await User.find({ saved: id });
+        users.forEach(user => {
+            const removeIdFromSavedArray = async (user) => {
+                await User.findByIdAndUpdate(user._id, {
+                    $pull: {
+                        saved: id,
+                    }
+                }, {
+                    new: true
+                });
+            }
+            removeIdFromSavedArray(user);
+        });
         res.status(200).redirect('/editor/articles');
     } catch (err) {
         console.log(err);
@@ -27,7 +40,6 @@ router.patch('/articles/edit/:id', async (req, res) => {
         },{
             new: true
         });
-        console.log(article);
         res.status(200).redirect('/editor/articles');
     } catch (err) {
         console.log(err);
