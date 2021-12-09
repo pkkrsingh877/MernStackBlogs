@@ -1,7 +1,7 @@
 <% layout('/layouts/boilerplate') %>
     <h1 class="text-center">Questions</h1>  
     <% if (user) { %>
-        <a href="/questions/new"  class="text-center">Ask a Question</a>
+        <a href="/questions/new"  class="text-center d-block mb-3">Ask a Question</a>
     <% } else { %>
             <a href="/auth/login"  class="text-center d-block mb-3">Login to Ask a Question</a>
         <% } %>
