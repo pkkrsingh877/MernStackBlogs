@@ -21,10 +21,10 @@ const articleSchema = new mongoose.Schema({
         type: Date
     },
     comments: [{         
-        _id: false,
         comment: { type: String, required: [true, "Please, Enter the comment"] },
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        createdAt: Date   
+        createdAt: Date,
+        updatedAt: Date   
     }],
     views: Number,
     writer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }

@@ -6,6 +6,38 @@ const Question = require("../models/questions");
 const checkUser = require("../middlewares/checkUserMiddleware");
 const prepareSomeTags = require('../functions/prepareSomeTags');
 
+router.delete('/comments/delete/:questionId/:commentId', async (req, res) => {
+	try {
+		const { questionId, commentId } = req.params;
+		const question = await Question.findByIdAndUpdate(questionId, {
+			$pull: { comments: { _id: commentId } }
+		}, {
+			new: true
+		});
+		console.log(question);
+		res.status(200).redirect(`/questions/${questionId}`);
+	} catch (err) {
+		console.log(err);
+		res.status(400).render('error');
+	}
+});
+
+router.patch('/comments/edit/:questionId/:commentId', (req, res) => {
+	try {
+		const { questionId, commentId } = req.params;
+		// const question = await Question.findByIdAndUpdate(questionId, {
+		// 	$pull: { comments: { _id: commentId } }
+		// }, {
+		// 	new: true
+		// });
+		// console.log(question);
+		res.status(200).redirect(`/questions/${questionId}`);
+	} catch (err) {
+		console.log(err);
+		res.status(400).render('error');
+	}
+});
+
 router.get('/applying', async (req, res) => {
 	try {
 		const user = await User.findByIdAndUpdate(res.locals.user._id, {

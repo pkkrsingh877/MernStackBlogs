@@ -11,10 +11,10 @@ const questionSchema = new mongoose.Schema({
     },
     tags: [String],
     comments: [{
-        _id: false,
         comment: { type: String, required: [true, "Please, Enter the comment"] },
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        createdAt: Date
+        createdAt: Date,
+        updatedAt: Date
       }],
     views: Number,
     questioner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }

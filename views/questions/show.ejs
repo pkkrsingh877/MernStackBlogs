@@ -38,7 +38,15 @@
                     </p>
                     <p class="card-subtitle mb-2 comments-date">
                         <%= comments[i].createdAt %>
-                    </p>
+                    </p>  
+                    <% if (user._id.toString() === comments[i].user._id.toString()) { %>
+                        <form class="d-inline" action="/user/comments/edit/<%= question._id %>/<%= comments[i]._id %>?_method=PATCH" method="POST">
+                            <button class="btn btn-primary">Edit</button>
+                        </form>
+                        <form class="d-inline" action="/user/comments/delete/<%= question._id %>/<%= comments[i]._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    <% } %>
                 </div>
             </article>  
         <% } %>
