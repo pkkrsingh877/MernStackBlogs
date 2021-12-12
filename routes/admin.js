@@ -5,6 +5,7 @@ const prepareSomeTags = require("../functions/prepareSomeTags");
 const readMinutes = require("../functions/readMinutes");
 const Article = require("../models/articles");
 const User = require("../models/users");
+const Question = require("../models/questions");
 
 router.post("/user/requests/decline/:id", async (req, res) => {
     try {
@@ -107,6 +108,22 @@ router.delete("/articles/delete/:id", async (req, res) => {
 router.get("/articles", async (req, res) => {
     const articles = await Article.find({}).sort({ createdAt: 1 });
     res.render("admin/articles", { articles });
+});
+
+router.delete("/questions/delete/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Question.findByIdAndDelete(id);
+        res.status(200).redirect('/admin/questions');
+    } catch (err) {
+        console.log(err);
+        res.status(400).render('error');
+    }
+});
+
+router.get("/questions", async (req, res) => {
+    const questions = await Question.find({}).sort({ createdAt: 1});
+    res.render("admin/questions", { questions });
 });
 
 router.post("/", async (req, res) => {
