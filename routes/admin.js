@@ -110,9 +110,10 @@ router.get("/articles", async (req, res) => {
     res.render("admin/articles", { articles });
 });
 
-router.delete("/questions/delete/:id", async (req, res) => {
+router.delete("/questions/delete", async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = req.body;
+        console.log(req.body);
         await Question.findByIdAndDelete(id);
         res.status(200).redirect('/admin/questions');
     } catch (err) {

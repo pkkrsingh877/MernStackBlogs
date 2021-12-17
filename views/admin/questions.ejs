@@ -9,7 +9,8 @@
                 <li class="m-3"><a href="/questions/<%= questions[index]._id%>" class="description">
                     <%= questions[index].title%>
                 </a></li>
-                <form action="/admin/questions/delete/<%= questions[index]._id%>?_method=DELETE" method="POST">
+                <form action="/admin/questions/delete?_method=DELETE" method="POST">
+                    <input type="hidden" name="id" value="<%= questions[index]._id%>">
                     <button class="btn btn-danger m-3">Delete</button>
                 </form>
             </ol>
