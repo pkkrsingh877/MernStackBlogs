@@ -40,10 +40,14 @@
                         <%= comments[i].createdAt %>
                     </p>  
                     <% if (user._id.toString() === comments[i].user._id.toString()) { %>
-                        <form class="d-inline" action="/user/comments/edit/<%= question._id %>/<%= comments[i]._id %>?_method=PATCH" method="POST">
+                        <form class="d-inline" action="/user/comments/edit?_method=PATCH" method="POST">
+                            <input type="hidden" name="questionId" value="<%= question._id %>">
+                            <input type="hidden" name="commentId" value="<%= comments[i]._id %>">
                             <button class="btn btn-primary">Edit</button>
                         </form>
-                        <form class="d-inline" action="/user/comments/delete/<%= question._id %>/<%= comments[i]._id %>?_method=DELETE" method="POST">
+                        <form class="d-inline" action="/user/comments/delete?_method=DELETE" method="POST">
+                            <input type="hidden" name="questionId" value="<%= question._id %>">
+                            <input type="hidden" name="commentId" value="<%= comments[i]._id %>">
                             <button class="btn btn-danger">Delete</button>
                         </form>
                     <% } %>

@@ -94,7 +94,6 @@ router.get('/:id', async (req, res) => {
             }
           });
           const comments = question.comments;
-          console.log(comments);
         res.render('questions/show', { question, comments, currentUser });
     } catch (err) {
         res.status(404).render("error");

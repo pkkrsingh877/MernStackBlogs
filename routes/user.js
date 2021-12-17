@@ -5,9 +5,9 @@ const Article = require("../models/articles");
 const Question = require("../models/questions");
 const prepareSomeTags = require('../functions/prepareSomeTags');
 
-router.delete('/comments/delete/:questionId/:commentId', async (req, res) => {
+router.delete('/comments/delete', async (req, res) => {
 	try {
-		const { questionId, commentId } = req.params;
+		const { questionId, commentId } = req.body;
 		const question = await Question.findByIdAndUpdate(questionId, {
 			$pull: { comments: { _id: commentId } }
 		}, {
@@ -21,9 +21,9 @@ router.delete('/comments/delete/:questionId/:commentId', async (req, res) => {
 	}
 });
 
-router.patch('/comments/edit/:questionId/:commentId', (req, res) => {
+router.patch('/comments/edit', (req, res) => {
 	try {
-		const { questionId, commentId } = req.params;
+		const { questionId, commentId } = req.body;
 		// const question = await Question.findByIdAndUpdate(questionId, {
 		// 	$pull: { comments: { _id: commentId } }
 		// }, {
