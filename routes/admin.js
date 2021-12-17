@@ -106,14 +106,18 @@ router.delete("/articles/delete/:id", async (req, res) => {
 });
 
 router.get("/articles", async (req, res) => {
-    const articles = await Article.find({}).sort({ createdAt: 1 });
-    res.render("admin/articles", { articles });
+    try {
+        const articles = await Article.find({}).sort({ createdAt: 1 });
+        res.status(200).render("admin/articles", { articles });
+    } catch (err) {
+        console.log(err);
+        res.status(400).render('error');
+    }
 });
 
 router.delete("/questions/delete", async (req, res) => {
     try {
         const { id } = req.body;
-        console.log(req.body);
         await Question.findByIdAndDelete(id);
         res.status(200).redirect('/admin/questions');
     } catch (err) {
