@@ -176,24 +176,23 @@ router.get("/savedarticles", async (req, res) => {
 
 router.post("/save", async (req, res) => {
 	try {
-		const { articleId } = req.body;
+		const { id } = req.body;
 		if (res.locals.user) {
-			const data = await User.findByIdAndUpdate(
+			const user = await User.findByIdAndUpdate(
 				res.locals.user._id,
 				{
-					$addToSet: { saved: articleId },
+					$addToSet: { saved: id },
 				},
 				{
 					new: true,
 					upsert: true,
 				}
 			);
-			console.log(data);
 		}
-		res.status(200).end();
+		res.status(200).redirect('/articles');
 	} catch (err) {
 		console.log(err);
-		res.status(400).end();
+		res.status(400).render('error');
 	}
 });
 
