@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require("../models/users");
 const Article = require("../models/articles");
 const Question = require("../models/questions");
-const checkUser = require("../middlewares/checkUserMiddleware");
 const prepareSomeTags = require('../functions/prepareSomeTags');
 
 router.delete('/comments/delete/:questionId/:commentId', async (req, res) => {
@@ -84,34 +83,45 @@ router.patch('/questions/edit/:id', async (req, res) => {
 });
 
 router.get('/questions/edit/:id', async (req, res) => {
-	const { id } = req.params;
-	const question = await Question.findById(id);
-	res.render('user/editQuestion', { question });
+	try {
+		const { id } = req.params;
+		const question = await Question.findById(id);
+		res.render('user/editQuestion', { question });
+	} catch (err) {
+		console.log(err);
+		res.status(400).render('error');
+	}
 });
 
 router.get('/questions', async (req, res) => {
-	const user = await User.findById(res.locals.user._id).populate('questions');
-	const questions = user.questions;
-	res.render('user/questions', { questions });
+	try {
+		const user = await User.findById(res.locals.user._id).populate('questions');
+		const questions = user.questions;
+		res.render('user/questions', { questions });
+	} catch (err) {
+		console.log(err);
+		res.status(400).render('error');
+	}
 });
 
-router.delete("/savedarticles", checkUser, async (req, res) => {
+router.delete("/savedarticles", async (req, res) => {
 	try {
-		const { articleId } = req.body;
+		const { id } = req.body;
 		const data = await User.findByIdAndUpdate(
 			res.locals.user._id,
 			{
-				$pull: { saved: articleId },
+				$pull: { saved: id },
 			},
 			{ new: true }
 		);
-		res.status(301).json({ url: "/user/savedarticles" });
+		res.status(200).redirect("/user/savedarticles");
 	} catch (err) {
+		console.log(err);
 		res.status(400).end();
 	}
 });
 
-router.get("/savedarticles", checkUser, async (req, res) => {
+router.get("/savedarticles", async (req, res) => {
 	let { page, skip, limit } = req.query;
 	limit = parseInt(limit);
 	page = parseInt(page);
@@ -140,7 +150,6 @@ router.get("/savedarticles", checkUser, async (req, res) => {
 
 		const user = await User.findById(res.locals.user._id).populate('saved');
 		let savedArticles = user.saved;
-		console.log(savedArticles)
 		const skipAndLimit = (page, skip) => {
 			//for skipping
 			savedArticles = savedArticles.slice(
@@ -165,10 +174,9 @@ router.get("/savedarticles", checkUser, async (req, res) => {
 	}
 });
 
-router.post("/save", checkUser, async (req, res) => {
+router.post("/save", async (req, res) => {
 	try {
 		const { articleId } = req.body;
-		console.log(articleId);
 		if (res.locals.user) {
 			const data = await User.findByIdAndUpdate(
 				res.locals.user._id,
@@ -189,7 +197,7 @@ router.post("/save", checkUser, async (req, res) => {
 	}
 });
 
-router.post("/update", checkUser, async (req, res) => {
+router.post("/update", async (req, res) => {
 	try {
 		if (res.locals.user.id) {
 			const { name, username, email, img, bio } = req.body;
@@ -198,7 +206,6 @@ router.post("/update", checkUser, async (req, res) => {
 				{ name, username, email, img, bio },
 				{ new: true }
 			);
-			console.log(user);
 			res.status(200).json({ user: user._id });
 		} else {
 			res.status(200).redirect("/auth/login");
@@ -208,11 +215,11 @@ router.post("/update", checkUser, async (req, res) => {
 	}
 });
 
-router.get("/update", checkUser, async (req, res) => {
+router.get("/update", async (req, res) => {
 	res.render("user/updateProfile.ejs");
 });
 
-router.get("/profile", checkUser, async (req, res) => {
+router.get("/profile", async (req, res) => {
 	try {
 		const data = await User.findById(res.locals.user.id);
 		res.status(200).render("user/profile", { data });

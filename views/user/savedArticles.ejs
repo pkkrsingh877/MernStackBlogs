@@ -7,7 +7,10 @@
             <li class="m-3"><a href="/articles/<%= savedArticles[index]._id%>" class="description">
                 <%= savedArticles[index].title%>
             </a></li>
-            <button class="<%= savedArticles[index]%> btn btn-danger m-3" id="delete<%= index %>">Delete</button>
+            <form action="/user/savedarticles?_method=DELETE" method="post">
+                <input type="hidden" name="id" value="<%= savedArticles[index]._id %>">
+                <button class="btn btn-danger m-3">Delete</button>
+            </form>
         </ol>
     <% } %>
 </section>
@@ -56,82 +59,3 @@
         <p class="description">You have not saved any articles yet.</p>
     </section>
     <% } %>
-
-    <script>
-        const delete0 = document.querySelector('#delete0');
-        const delete1 = document.querySelector('#delete1');
-        const delete2 = document.querySelector('#delete2');
-        const delete3 = document.querySelector('#delete3');
-        delete0.addEventListener('click', async (e) => {
-            e.preventDefault();
-            try {
-                const res = await fetch('/user/savedarticles', {
-                    method: 'DELETE',
-                    body: JSON.stringify({
-                        articleId: delete0.classList[0]
-                    }),
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                const data = await res.json();
-                if(data){
-                    window.location.href = data.url;
-                }
-            } catch (err) {
-                console.log(err);
-            }      
-        });
-        delete1.addEventListener('click', async (e) => {
-            e.preventDefault();
-            try {
-                const res = await fetch('/user/savedarticles', {
-                    method: 'DELETE',
-                    body: JSON.stringify({
-                        articleId: delete1.classList[0]
-                    }),
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                const data = await res.json();
-                if(data){
-                    window.location.href = data.url;
-                }
-            } catch (err) {
-                console.log(err);
-            }      
-        });
-        delete2.addEventListener('click', async (e) => {
-            e.preventDefault();
-            try {
-                const res = await fetch('/user/savedarticles', {
-                    method: 'DELETE',
-                    body: JSON.stringify({
-                        articleId: delete2.classList[0]
-                    }),
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                const data = await res.json();
-                if(data){
-                    window.location.href = data.url;
-                }
-            } catch (err) {
-                console.log(err);
-            }      
-        });
-        delete3.addEventListener('click', async (e) => {
-            e.preventDefault();
-            try {
-                const res = await fetch('/user/savedarticles', {
-                    method: 'DELETE',
-                    body: JSON.stringify({
-                        articleId: delete3.classList[0]
-                    }),
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                const data = await res.json();
-                if(data){
-                    window.location.href = data.url;
-                }
-            } catch (err) {
-                console.log(err);
-            }      
-        });
-    </script>
