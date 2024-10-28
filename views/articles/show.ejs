@@ -8,75 +8,86 @@
             <%- article.description %>
         </article>
         <article class="tags m-1 d-flex flex-row flex-wrap">
-            <% for(let i = 0; i < article.tags.length; i++){ %>
-            <div class="tag-card">
-                <a href="/articles/tags/<%= article.tags[i] %>"> <%= article.tags[i] %> </a>
-            </div>
-            <% } %>
+            <% for(let i=0; i < article.tags.length; i++){ %>
+                <div class="tag-card">
+                    <a href="/articles/tags/<%= article.tags[i] %>">
+                        <%= article.tags[i] %>
+                    </a>
+                </div>
+                <% } %>
         </article>
         <hr>
-            <div class="description text-muted container cardFooter">
-                <div class="row">
-                    <div class="col-sm">Modified at <%= article.modifiedAt.toDateString() %></div>
-                    <div class="col-sm">Created at <%= article.createdAt.toDateString() %></div>
-                    <% if (article.readMinutes > 1) { %>
-                        <div class="col-sm"> <%= article.readMinutes %> minutes read</div>
-                    <% } else { %>
-                        <div class="col-sm"> <%= article.readMinutes %> minute read</div>
-                    <% } %>
+        <div class="description text-muted container cardFooter">
+            <div class="row">
+                <div class="col-sm">Modified at <%= article.modifiedAt.toDateString() %>
                 </div>
+                <div class="col-sm">Created at <%= article.createdAt.toDateString() %>
+                </div>
+                <% if (article.readMinutes> 1) { %>
+                    <div class="col-sm">
+                        <%= article.readMinutes %> minutes read
+                    </div>
+                    <% } else { %>
+                        <div class="col-sm">
+                            <%= article.readMinutes %> minute read
+                        </div>
+                        <% } %>
             </div>
+        </div>
     </section>
     <section class="card shadow p-3 mb-3 mt-3 bg-body rounded">
         <h2>
             Comments:
         </h2>
-        <% for(let i = comments.length - 1; i >= 0; i--){ %>
+        <% for(let i=comments.length - 1; i>= 0; i--){ %>
             <article class="card">
                 <div class="card-body">
                     <h5 class="name card-title comments-name">
-                        <%= comments[i].user.name %> 
-                    </h5> 
-                    <p class="comment card-text comments-comment">               
-                        <%= comments[i].comment %>  
+                        <% if (comments[i].user && comments[i].user.name) { %>
+                            <%= comments[i].user.name %>
+                                <% } else { %>
+                                    Deleted
+                                    <% } %>
+                    </h5>
+                    <p class="comment card-text comments-comment">
+                        <%= comments[i].comment %>
                     </p>
                     <p class="card-subtitle mb-2 comments-date">
                         <%= comments[i].createdAt %>
                     </p>
                 </div>
-            </article>  
-        <% } %>
+            </article>
+            <% } %>
     </section>
     <section class="card shadow p-3 mb-3 mt-3 bg-body rounded">
         <% if (user) { %>
-        <h2>
-            Leave A Comment:
-        </h2>
-        <form action="/articles/<%= article.id %>" method="post">
-            <div class="mb-3">
-                <label for="comment" class="form-label">Comment: </label><br>
-                <textarea id ="comment" placeholder="comment(required)"
-                name="comment" cols="30" rows="3" class="form-control" required></textarea>
-            </div>
-            <input type="hidden" id="user" name="user" value="<%= user._id %>">
-            <button class="btn btn-primary">Comment</button>
-        </form>
-        <% } else { %>
-            <a href="/auth/login">Login to Comment</a>
-            <% } %> 
+            <h2>
+                Leave A Comment:
+            </h2>
+            <form action="/articles/<%= article.id %>" method="post">
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Comment: </label><br>
+                    <textarea id="comment" placeholder="comment(required)" name="comment" cols="30" rows="3"
+                        class="form-control" required></textarea>
+                </div>
+                <input type="hidden" id="user" name="user" value="<%= user._id %>">
+                <button class="btn btn-primary">Comment</button>
+            </form>
+            <% } else { %>
+                <a href="/auth/login">Login to Comment</a>
+                <% } %>
     </section>
-        
+
     <script>
         try {
-                const res = fetch('/articles/viewcount', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        url: location.pathname
-                    }),
-                    headers: { 'Content-Type': 'application/json' }
-                });
+            const res = fetch('/articles/viewcount', {
+                method: 'POST',
+                body: JSON.stringify({
+                    url: location.pathname
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            });
         } catch (err) {
             console.log(err);
         }
     </script>
-    
